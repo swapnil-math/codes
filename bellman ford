@@ -1,0 +1,56 @@
+import java.util.Scanner;
+public class prog3_bellmanFord {
+	void bellmanFord(int a[][],int n,int src)
+	{
+		int[] dist = new int[n];
+		for(int i=0;i<n;i++)
+			dist[i]=999;
+		dist[src]=0;
+		for(int k=0;k<=n;k++)
+		{
+			for(int i=0;i<n;i++)
+			{
+				for(int j=0;j<n;j++)
+				{
+					if(a[i][j]!=999)
+					{
+						if(dist[i]+a[i][j] < dist[j] && k==n)
+						{
+							System.out.println("contains negative edge cycle ");
+							System.exit(0);
+						}
+						if(dist[i]+a[i][j]<dist[j])
+							dist[j]=dist[i]+a[i][j];
+						
+					}
+				}
+			}
+		}
+		for(int i=0;i<n;i++)
+		{
+			System.out.println("Distance from "+(src+1)+" to "+(i+1)+" is : "+dist[i]);
+		}		
+	}	
+	public static void main(String[] args) {		
+		Scanner sc = new Scanner(System.in);
+		System.out.println("Enter no of nodes : ");
+		int n = sc.nextInt();
+		int a[][] = new int[n][n];
+		System.out.println("enter graph matrix : ");
+		for(int i=0;i<n;i++)
+		{
+			for(int j=0;j<n;j++)
+			{
+				a[i][j] = sc.nextInt();
+				if(i==j) 
+					a[i][j]=0;
+				if(a[i][j]==0)
+					a[i][j]=999;
+			}
+		}
+		System.out.println("enter source vertex : ");
+		int src = sc.nextInt();
+		prog3_bellmanFord obj = new prog3_bellmanFord();
+		obj.bellmanFord(a, n, (src-1));
+	}
+}
